@@ -1,0 +1,10 @@
+export default {
+     ADD_PHONE : "ADD_PHONE",
+ DELETE_PHONE : "DELETE_PHONE",
+ FILTER_PHONE : "FILTER_PHONE",
+}
+ 
+
+
+
+
