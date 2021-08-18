@@ -20,7 +20,8 @@ import { logger } from 'redux-logger';
 const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      ignoredActions: [FLUSH,
+        REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
   logger,

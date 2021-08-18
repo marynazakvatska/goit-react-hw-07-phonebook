@@ -1,9 +1,23 @@
 
 import { combineReducers } from "redux";
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import * as actions from "./actions";
 import { toast } from 'react-toastify';
 import { fetchContacts } from "./contactsOperations";
+
+const authorsAdapter = createEntityAdapter({
+    selectId: contact => contact.id,
+});
+
+const contactsSlice = createSlice({
+    name: 'contacts',
+    initialState: { items: [], isLoading: false },
+    extraReducers: {
+        [fetchContacts.fulfilled](state, action) {
+            authorsAdapter.setAll (state, action.payload);
+}
+    }
+});
 
 
 const addContact = (state, { payload }) => {
@@ -12,19 +26,22 @@ const addContact = (state, { payload }) => {
         toast.error(` '${payload.name}' is already in your list`)
         return state;
     }
-  
     return [...state, payload]
 }
  
-
 
 const items = createReducer([], {
      
     [actions.addContact]: actions.addContact ,
     [actions.deleteContact]: (state, { payload }) => state.filter(({ id }) => id !== payload),
-    
 
-     [fetchContacts.fulfilled]: (_, action) => action.payload, //new
+    /*  [fetchContacts.fulfilled]: (_, action) => action.payload, //new */
+})
+
+const isLoading = createReducer(false, {
+    [fetchContacts.pending]: () => true,
+    [fetchContacts.fulfilled]: () => false,
+    [fetchContacts.rejected]: () => false,
 })
 
 const error = createReducer(null, {          //new
@@ -36,12 +53,13 @@ const filter = createReducer('', {
     [actions.changeFilter]: (_, {payload}) => payload,
 })
 
-
 export default combineReducers({
     items,
     filter,
+    isLoading,
     error,  //new
-})
+},  contactsSlice.reducer)
+
 
 
 

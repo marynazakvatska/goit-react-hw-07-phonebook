@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import './ContactList.module.css';
 import PropTypes from "prop-types";
 import s from "./ContactList.module.css";
-import { getVisibleContacts } from '../../redux/selectors';
+import { getVisibleContacts } from '../../redux/contacts-selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as contactsOperations from '../../redux/contactsOperations';
-import * as contactSelector from '../../redux/selectors';
+import * as contactSelector from '../../redux/contacts-selectors';
 
 
 const ContactList = () => {

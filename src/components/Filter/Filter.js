@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import s from "./Filter.module.css";
-import { getFilter } from "../../redux/selectors";
+import { getFilter } from "../../redux/contacts-selectors";
 import * as actions from '../../redux/actions'
 import {useDispatch, useSelector } from 'react-redux';
 
