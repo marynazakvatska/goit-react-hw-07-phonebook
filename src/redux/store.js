@@ -2,7 +2,7 @@
 
 import { combineReducers } from 'redux';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import phoneReducer from './reducer';
+import phoneReducer from './slice';
 import {
   persistStore, persistReducer,
    FLUSH,

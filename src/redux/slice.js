@@ -5,19 +5,39 @@ import * as actions from "./actions";
 import { toast } from 'react-toastify';
 import { fetchContacts } from "./contactsOperations";
 
-const authorsAdapter = createEntityAdapter({
+import { createSelector } from '@reduxjs/toolkit';
+
+export const getContacts = state => state.contacts.items;
+export const getFilter = state => state.contacts.filter;
+
+
+export const getVisibleContacts = createSelector(
+  [getContacts, getFilter],
+  (contacts, filter) => {
+    const normalizedFilter = filter.toLowerCase();
+  return contacts.filter(contact =>
+    
+    contact.name.toLowerCase().includes(normalizedFilter),
+    );
+  },
+);
+
+const contactsAdapter = createEntityAdapter({
     selectId: contact => contact.id,
 });
 
 const contactsSlice = createSlice({
     name: 'contacts',
-    initialState: { items: [], isLoading: false },
+    initialState: contactsAdapter.getInitialState ({ isLoading: false }),
     extraReducers: {
         [fetchContacts.fulfilled](state, action) {
-            authorsAdapter.setAll (state, action.payload);
+            contactsAdapter.setAll(state, action.payload);
 }
     }
 });
+
+export const contactsSelectors = contactsAdapter.getSelectors(state => state.contacts) //new22
+
 
 
 const addContact = (state, { payload }) => {
@@ -28,14 +48,14 @@ const addContact = (state, { payload }) => {
     }
     return [...state, payload]
 }
- 
+ /* 
 
 const items = createReducer([], {
-     
-    [actions.addContact]: actions.addContact ,
-    [actions.deleteContact]: (state, { payload }) => state.filter(({ id }) => id !== payload),
+     [fetchContacts.fulfilled]:(_,action)=>action.payload,
+     [actions.addContact]: actions.addContact ,
+     [actions.deleteContact]: (state, { payload }) => state.filter(({ id }) => id !== payload),
 
-    /*  [fetchContacts.fulfilled]: (_, action) => action.payload, //new */
+   
 })
 
 const isLoading = createReducer(false, {
@@ -47,46 +67,18 @@ const isLoading = createReducer(false, {
 const error = createReducer(null, {          //new
     [fetchContacts.rejected]: (_, action) => action.payload,
     [fetchContacts.pending]: () => null,
-})
+}) */
 
 const filter = createReducer('', {
     [actions.changeFilter]: (_, {payload}) => payload,
 })
 
 export default combineReducers({
-    items,
+  /*   items, */
     filter,
-    isLoading,
-    error,  //new
+    /* isLoading,
+    error,   *///new
 },  contactsSlice.reducer)
 
 
 
-
-/* 
-const items = (state = [], { type, payload }) => {
-    switch (type) {
-    case actionTypes.ADD_PHONE:
-     return   [...state, payload];
-           
-        
-      case actionTypes.DELETE_PHONE: 
-            return state.filter(({id}) => id !== payload);
-         
-    default:
-      return state;
-  }
-} */
-
-
-/* const filter = (state = "", { type, payload }) => {
-     
-    switch (type) {
-      
-    case actionTypes.FILTER_PHONE:
-      return payload;
-         
-    default:
-      return state;
-  }
-} */

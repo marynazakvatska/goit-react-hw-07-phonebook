@@ -6,14 +6,14 @@ import { getVisibleContacts } from '../../redux/contacts-selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
 import * as contactsOperations from '../../redux/contactsOperations';
-import * as contactSelector from '../../redux/contacts-selectors';
+import { contactsSelectors }  from '../../redux/slice';
 
 
 const ContactList = () => {
   
   const contacts = useSelector(getVisibleContacts);
   const dispatch = useDispatch();
-  const stateContact = useSelector(contactSelector.getContacts); //new
+  const stateContact = useSelector(contactsSelectors.selectAll); //new
 
 
   useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
@@ -50,43 +50,4 @@ const ContactList = () => {
 
 export default ContactList
 
-  /* const handleSubmit = ({ name, number }) => {
-     contacts.find(contact =>
-       contact.name.toLowerCase().includes(name.toLowerCase())
-         ? alert(`${contact.name}  already exist`)
-         :addContact(name, number)
-       
-     )
-   }; */
   
-/* const getVisibleContacts = (allContacts, filter) => {
-  
-  const normalizedFilter = filter.toLowerCase();
-  return allContacts.filter(contact =>
-    
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
- }
-
-
-const mapStateToProps = ({contacts: {items, filter}}) => ({
-  contacts: getVisibleContacts(items, filter)
-})
-
-
-
-const mapDispatchToProps = dispatch => ({
-  onDeleteContact: id => dispatch(deleteContact(id))
-  
-}) */
-
-/* export default connect(mapStateToProps, mapDispatchToProps)(ContactList) ;
- */
-
-
-
-
-/* ContactList.propTypes = {
-    contacts: PropTypes.array.isRequired,
-      onDeleteContact : PropTypes.func.isRequired,
-}; */
