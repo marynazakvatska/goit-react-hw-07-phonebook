@@ -1,90 +1,89 @@
-import {useState} from 'react';
-import s from './ContactForm.module.css';
-import shortid from 'shortid';
-import { useDispatch } from 'react-redux';
-import * as actions from '../../redux/actions';
+import { useState } from "react";
+import s from "./ContactForm.module.css";
+import shortid from "shortid";
+import { useDispatch } from "react-redux";
+import * as actions from "../../redux/actions";
+import { useAddContactMutation } from "../../redux/contactsApi";
 
+const SignupForm = () => {
+  // const dispatch = useDispatch();
 
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
 
- const SignupForm = () => {
-  const dispatch = useDispatch();
+  const [addContact] = useAddContactMutation();
 
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  
   const nameInputId = shortid.generate();
-   const numberInputId = shortid.generate();
+  const numberInputId = shortid.generate();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // dispatch(actions.addContact({ name, number }));
+    addContact({ name, number });
+    /*  onSubmit({name, number}) */
+    reset();
+  };
 
-
-const  handleSubmit = e => {
-  e.preventDefault();
-  dispatch(actions.addContact({name, number}))
-   /*  onSubmit({name, number}) */
-    
-reset();
-    }
- 
-  
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     switch (name) {
-      case 'name':
+      case "name":
         setName(value);
         break;
-      
-      case 'number':
+
+      case "number":
         setNumber(value);
         break;
-      
-      default: return;
+
+      default:
+        return;
     }
-    } 
-  
-  
- const reset = () => {
-   setName('' )
-   setNumber( '')
-}
+  };
 
-  return (<div className={s.forma} >
-        <form onSubmit={handleSubmit}>
-          <label htmlFor={nameInputId}>
- Name <input
-  type="text"
-  name="name"
-  pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-  title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-  required
-value={name}
-                 onChange={handleChange}
-                 id={nameInputId}
-                        />
-                    </label>
+  const reset = () => {
+    setName("");
+    setNumber("");
+  };
 
+  return (
+    <div className={s.forma}>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor={nameInputId}>
+          Name{" "}
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+            required
+            value={name}
+            onChange={handleChange}
+            id={nameInputId}
+          />
+        </label>
 
-          <label htmlFor={numberInputId}>
- Number <input
-  type="tel"
-  name="number"
-  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-  title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-  required
- value={number}
- onChange={handleChange}
-  id={numberInputId}
-/>
-          </label>
+        <label htmlFor={numberInputId}>
+          Number{" "}
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+            required
+            value={number}
+            onChange={handleChange}
+            id={numberInputId}
+          />
+        </label>
 
-            <button className={s.btnsubmit} type="submit" >Add contact</button>
-        </form>
-
-        
-           </div>
- )
-}
+        <button className={s.btnsubmit} type="submit">
+          Add contact
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export default SignupForm;
 
@@ -94,4 +93,3 @@ export default SignupForm;
 
 export default connect(null, mapDispatchToProps)(SignupForm)
  */
-
