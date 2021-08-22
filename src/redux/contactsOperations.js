@@ -14,15 +14,3 @@
 //   }
 // );
 
-/* export const fetchContacts = () => async dispatch => {
-    dispatch(actions.fetchContactsRequest());
-
-  
-  try {
-     const contacts = await contactsApi.fetchContacts();
-    dispatch(actions.fetchContactsSuccess(contacts))
-  } catch (error) {
-    dispatch(actions.fetchContactsError(error));
-  }
-    
-} */

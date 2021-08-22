@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const phonebookApi = createApi({
   reducerPath: "phonebookApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4040",
+    baseUrl: "http://localhost:3000",
   }),
   tagTypes: ["Contacts"],
   endpoints: (builder) => ({
