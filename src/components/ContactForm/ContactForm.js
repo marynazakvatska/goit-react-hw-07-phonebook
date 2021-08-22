@@ -1,28 +1,40 @@
 import { useState } from "react";
 import s from "./ContactForm.module.css";
 import shortid from "shortid";
-import { useDispatch } from "react-redux";
-import * as actions from "../../redux/actions";
-import { useAddContactMutation } from "../../redux/contactsApi";
+import { useDispatch, useSelector } from "react-redux";
+import * as contactsSelectors from '../../redux/contacts-selectors';
+import * as contactsOperations  from '../../redux/contactsOperations';
+import { toast } from 'react-toastify';
 
 const SignupForm = () => {
-  // const dispatch = useDispatch();
+
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
-  const [addContact] = useAddContactMutation();
+   const contacts = useSelector(contactsSelectors.getContacts);
+  const dispatch = useDispatch();
 
   const nameInputId = shortid.generate();
   const numberInputId = shortid.generate();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // dispatch(actions.addContact({ name, number }));
-    addContact({ name, number });
-    /*  onSubmit({name, number}) */
+   e.preventDefault();
+    const nameInlist = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase(),
+    );
+   
+    if (nameInlist) {
+      toast.error(`  '${name}' is already in your list`);
+      reset();
+      return;
+    }
+   
+    dispatch(contactsOperations.addContacts({ name, number }));
     reset();
   };
+ 
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,9 +99,3 @@ const SignupForm = () => {
 
 export default SignupForm;
 
-/* const mapDispatchToProps = dispatch => ({
-  onSubmit: contact => dispatch(addContact(contact))  
-})
-
-export default connect(null, mapDispatchToProps)(SignupForm)
- */

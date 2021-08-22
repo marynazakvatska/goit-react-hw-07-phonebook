@@ -1,35 +1,19 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import axios from 'axios';
 
-export const phonebookApi = createApi({
-  reducerPath: "phonebookApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000",
-  }),
-  tagTypes: ["Contacts"],
-  endpoints: (builder) => ({
-    getContacts: builder.query({
-      query: () => `/contacts`,
-      providesTags: ["Contacts"],
-    }),
-    deleteContacts: builder.mutation({
-      query: (id) => ({ url: `/contacts/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Contacts"],
-    }),
-    addContact: builder.mutation({
-      query: (contact) => ({
-        url: "/contacts",
-        method: "POST",
-        body: {
-          ...contact,
-        },
-      }),
-      invalidatesTags: ["Contacts"],
-    }),
-  }),
-});
+axios.defaults.baseURL = 'http://localhost:3000';
 
-export const {
-  useGetContactsQuery,
-  useDeleteContactsMutation,
-  useAddContactMutation,
-} = phonebookApi;
+export async function fetchContacts() {
+  const { data } = await axios.get('/contacts');
+  return data;
+}
+
+export async function addContact(contact) {
+  const { data } = await axios.post('/contacts', contact);
+
+  return data;
+}
+
+export async function dltContact(id) {
+  await axios.delete(`/contacts/${id}`);
+  return id;
+}

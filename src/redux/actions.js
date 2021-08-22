@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+/* import shortid from 'shortid';
 import { createAction } from '@reduxjs/toolkit';
 
 
@@ -24,7 +24,7 @@ export  const addContact = createAction('ADD_PHONE', (  {name, number}  ) =>
 
 
 export const deleteContact = createAction('DELETE_PHONE');
-export const changeFilter = createAction('FILTER_PHONE')
+export const changeFilter = createAction('FILTER_PHONE') */
 
 /* export default { addContact, deleteContact, changeFilter} */
      

@@ -5,8 +5,13 @@ import { getFilter } from "../../redux/contacts-selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { handleFilterContacts } from "../../redux/filterReducer";
 
+
+import * as contactsSelectors from '../../redux/contacts-selectors';
+import * as contactsOperations  from '../../redux/contactsOperations';
+import { changeFilter } from "../../redux/slice";
+
 const Filter = () => {
-  const value = useSelector(getFilter);
+  const value = useSelector(contactsSelectors.getFilter );
   const dispatch = useDispatch();
 
   return (
@@ -15,7 +20,7 @@ const Filter = () => {
       <input
         type="text"
         value={value}
-        onChange={(e) => dispatch(handleFilterContacts(e.target.value))}
+        onChange={(e) => dispatch(changeFilter(e.target.value))}
       ></input>
     </label>
   );

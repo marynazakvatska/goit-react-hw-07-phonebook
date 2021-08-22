@@ -5,18 +5,16 @@ import s from "./ContactList.module.css";
 import { getVisibleContacts } from "../../redux/contacts-selectors";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../redux/actions";
-import * as contactsOperations from "../../redux/contactsOperations";
-import { contactsSelectors } from "../../redux/slice";
-import {
+import * as contactsSelectors from '../../redux/contacts-selectors';
+import * as contactsOperations  from '../../redux/contactsOperations';
+/* import {
   useGetContactsQuery,
   useDeleteContactsMutation,
-} from "../../redux/contactsApi";
+} from "../../redux/contactsApi"; */
 
 const ContactList = () => {
-  const visibleContacts = useSelector(getVisibleContacts);
-  // const dispatch = useDispatch();
-  const { data: contacts } = useGetContactsQuery();
-  const [onDeleteContact] = useDeleteContactsMutation();
+   const contacts = useSelector(contactsSelectors.getVisibleContacts);
+  const dispatch = useDispatch();
   // const stateContact = useSelector(contactsSelectors.selectAll); //new
 
   // useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
@@ -25,27 +23,9 @@ const ContactList = () => {
 
   return (
     <>
-      {/* {stateContact.length > 0 && ( //new
-        <ul className={s.contactList}>
-          {contacts.map(({ id, name, number }) => (
-            <li key={id} className={s.contactItem}>
-              <p className={s.contactDescription}>
-                {name}: {number}
-              </p>
-              <button
-                className={s.deleteBtn}
-                type="button"
-                onClick={() => onDeleteContact(id)}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )} */}
+      
       <ul className={s.contactList}>
-        {contacts &&
-          visibleContacts.map(({ id, name, number }) => (
+         {contacts.map(({ id, name, number }) => (
             <li key={id} className={s.contactItem}>
               <p className={s.contactDescription}>
                 {name}: {number}
@@ -53,7 +33,7 @@ const ContactList = () => {
               <button
                 className={s.deleteBtn}
                 type="button"
-                onClick={() => onDeleteContact(id)}
+                onClick={() => dispatch(contactsOperations.deleteContacts(id))}
               >
                 Delete
               </button>
